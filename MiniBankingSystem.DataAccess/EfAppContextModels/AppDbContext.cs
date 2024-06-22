@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using MiniBankingSystem.DataAccess.AppDbContext;
+using MiniBankingSystem.DataAccess.EfAppContextModels;
 
 namespace MiniBankingSystem.DataAccess.EfAppContextModels;
 
