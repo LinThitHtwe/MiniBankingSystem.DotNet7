@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using MiniBankingSystem.BusinessLogic.Features.State;
+using MiniBankingSystem.DataAccess.EfAppContextModels;
+using MiniBankingSystem.DataAccess.Services.State;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+builder.Services.AddScoped<StateDataAccess>();
+builder.Services.AddScoped<StateService>();
 
 var app = builder.Build();
 

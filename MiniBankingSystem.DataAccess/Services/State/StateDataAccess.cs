@@ -22,11 +22,14 @@
             return state;
         }
 
-        public async Task<int> CreateStateAsync(TblPlaceState state)
+        public async Task CreateStateAsync(TblPlaceState state)
         {
             await _context.TblPlaceStates.AddAsync(state);
             var result = await  _context.SaveChangesAsync();
-            return result;
+            if(result < 1)
+            {
+                throw new Exception("");
+            }  
         }
 
         public async Task<int> UpdateStateAysnc(string stateCode, TblPlaceState requestState)

@@ -6,8 +6,18 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBankingSystem.API", "MiniBankingSystem.API\MiniBankingSystem.API.csproj", "{DED20965-7584-4DDC-AD98-8A6F4309152A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBankingSystem.BusinessLogic", "MiniBankingSystem.BusinessLogic\MiniBankingSystem.BusinessLogic.csproj", "{B773D4D0-0925-4962-98FC-1358AC0CECCD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4AAF053F-2787-455C-A78F-BEB0EC129DF7} = {4AAF053F-2787-455C-A78F-BEB0EC129DF7}
+		{78CC9D62-536A-4CF5-B154-8D4A7F9E18A9} = {78CC9D62-536A-4CF5-B154-8D4A7F9E18A9}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBankingSystem.DataAccess", "MiniBankingSystem.DataAccess\MiniBankingSystem.DataAccess.csproj", "{78CC9D62-536A-4CF5-B154-8D4A7F9E18A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBankingSystem.Entities", "MiniBankingSystem.Entities\MiniBankingSystem.Entities.csproj", "{4AAF053F-2787-455C-A78F-BEB0EC129DF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBankingSystem.Utils", "MiniBankingSystem.Utils\MiniBankingSystem.Utils.csproj", "{2FC9FBDD-B68D-4961-A815-F4FBDFD6E31A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBankingSystem.Constants", "MiniBankingSystem.Constants\MiniBankingSystem.Constants.csproj", "{06EEFF59-FAE2-4314-9B71-10F3962CBEBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +37,18 @@ Global
 		{78CC9D62-536A-4CF5-B154-8D4A7F9E18A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78CC9D62-536A-4CF5-B154-8D4A7F9E18A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78CC9D62-536A-4CF5-B154-8D4A7F9E18A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AAF053F-2787-455C-A78F-BEB0EC129DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AAF053F-2787-455C-A78F-BEB0EC129DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AAF053F-2787-455C-A78F-BEB0EC129DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AAF053F-2787-455C-A78F-BEB0EC129DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC9FBDD-B68D-4961-A815-F4FBDFD6E31A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC9FBDD-B68D-4961-A815-F4FBDFD6E31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC9FBDD-B68D-4961-A815-F4FBDFD6E31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC9FBDD-B68D-4961-A815-F4FBDFD6E31A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06EEFF59-FAE2-4314-9B71-10F3962CBEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06EEFF59-FAE2-4314-9B71-10F3962CBEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06EEFF59-FAE2-4314-9B71-10F3962CBEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06EEFF59-FAE2-4314-9B71-10F3962CBEBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

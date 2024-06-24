@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MiniBankingSystem.DataAccess\MiniBankingSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\MiniBankingSystem.Entities\MiniBankingSystem.Entities.csproj" />
+    <ProjectReference Include="..\MiniBankingSystem.Utils\MiniBankingSystem.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

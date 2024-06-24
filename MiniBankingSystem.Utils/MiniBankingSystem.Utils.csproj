@@ -1,22 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MiniBankingSystem.BusinessLogic\MiniBankingSystem.BusinessLogic.csproj" />
     <ProjectReference Include="..\MiniBankingSystem.Constants\MiniBankingSystem.Constants.csproj" />
     <ProjectReference Include="..\MiniBankingSystem.DataAccess\MiniBankingSystem.DataAccess.csproj" />
     <ProjectReference Include="..\MiniBankingSystem.Entities\MiniBankingSystem.Entities.csproj" />
-    <ProjectReference Include="..\MiniBankingSystem.Utils\MiniBankingSystem.Utils.csproj" />
   </ItemGroup>
 
 </Project>
