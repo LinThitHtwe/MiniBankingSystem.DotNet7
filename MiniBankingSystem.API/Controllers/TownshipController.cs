@@ -40,5 +40,62 @@ namespace MiniBankingSystem.API.Controllers
                 return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTownship(TownshipRequestDTO requestTownship)
+        {
+            if(requestTownship is null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var createdTownship = await _townshipService.CreateTownship(requestTownship);
+                var apiResponse = ApiResponseMapper.CreateApiResponse(createdTownship,ApiResponseCodes.Created);
+                return Ok(apiResponse);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
+            }
+        }
+
+        [HttpPut("{townshipCode}")]
+        public async Task<IActionResult> UpdateTownship(string townshipCode,TownshipUpdateRequestDTO requestTownship)
+        {
+            if(requestTownship is null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var updatedTownship = await _townshipService.UpdateTownship(townshipCode, requestTownship);
+                var apiResponse = ApiResponseMapper.CreateApiResponse(updatedTownship, ApiResponseCodes.Success, ApiResponseMessages.SuccessUpdate);
+                return Ok(apiResponse);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
+            }
+        }
+
+        [HttpDelete("{townshipCode}")]
+        public async Task<IActionResult> DeleteTownship(string townshipCode)
+        {
+            try
+            {
+                await _townshipService.DeleteTownship(townshipCode);
+                var apiResponse = ApiResponseMapper.CreateApiResponse(new { }, 200, ApiResponseMessages.SuccessDelete);
+                return Ok(apiResponse);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
+            }
+        }
     }
 }

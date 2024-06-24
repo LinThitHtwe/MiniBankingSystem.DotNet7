@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniBankingSystem.Entities.Response
+namespace MiniBankingSystem.Entities.Request
 {
-    public class TownshipResponseDTO
+    public class TownshipRequestDTO
     {
         public string Code { get; set; }
+        public string Name { get; set; }
+        public string StateCode { get; set; }
+    }
+
+    public class TownshipUpdateRequestDTO
+    {
         public string Name { get; set; }
         public string StateCode { get; set; }
     }

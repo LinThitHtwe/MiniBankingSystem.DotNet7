@@ -1,21 +1,24 @@
-﻿using MiniBankingSystem.DataAccess.Services.Township;
+﻿using MiniBankingSystem.DataAccess.Services.State;
+using MiniBankingSystem.DataAccess.Services.Township;
 
 namespace MiniBankingSystem.BusinessLogic.Features.Township
 {
     public class TownshipService
     {
         private readonly TownshipDataAccess _townshipDA;
+        private readonly StateDataAccess _stateDA;
 
-        public TownshipService(TownshipDataAccess townshipDA)
+        public TownshipService(TownshipDataAccess townshipDA, StateDataAccess stateDA)
         {
             _townshipDA = townshipDA;
+            _stateDA = stateDA;
         }
 
         public async Task<List<TownshipResponseDTO>> GetAllTownships()
         {
             var tblPlaceTownships = await _townshipDA.GetAllTownshipsAsync();
             List<TownshipResponseDTO> responseTownships = new();
-            foreach(var township in tblPlaceTownships)
+            foreach (var township in tblPlaceTownships)
             {
                 responseTownships.Add(TownshipMapper.ChangeToResponseDTO(township)!);
             }
@@ -29,6 +32,40 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
             return responseTownship;
         }
 
-       
+        public async Task<TownshipRequestDTO> CreateTownship(TownshipRequestDTO requestTownship)
+        {
+            await CheckInvalidStateCode(requestTownship.StateCode);
+            var tblTownship = TownshipMapper.ChangeToTblTownship(requestTownship);
+            await _townshipDA.CreateAsync(tblTownship);
+            return requestTownship;
+        }
+
+        public async Task<TownshipResponseDTO> UpdateTownship(string townshipCode, TownshipUpdateRequestDTO requestTownship)
+        {
+            await CheckInvalidStateCode(requestTownship.StateCode);
+            var tblTownship = TownshipMapper.ChangeToTblTownship(requestTownship);
+            await _townshipDA.UpdateAsync(townshipCode,tblTownship);
+            TownshipResponseDTO responseTownship = new()
+            {
+                Code = townshipCode,
+                Name = requestTownship.Name,
+                StateCode = requestTownship.StateCode,
+            };
+            return responseTownship;
+        }
+
+        public async Task DeleteTownship(string townshipCode)
+        {
+            await _townshipDA.DeleteAsync(townshipCode);
+        }
+
+        private async Task CheckInvalidStateCode(string stateCode)
+        {
+            var existingState = await _stateDA.GetStateByStateCodeAsync(stateCode);
+            if (existingState is null)
+            {
+                throw new Exception("");
+            }
+        }
     }
 }

@@ -29,14 +29,17 @@
             return township;
         }
 
-        public async Task<int> CreateAsync(TblPlaceTownship township)
+        public async Task CreateAsync(TblPlaceTownship township)
         {
             await _context.TblPlaceTownships.AddAsync(township);
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new Exception("");
+            }
         }
 
-        public async Task<int> Update(string townshipCode, TblPlaceTownship requestTownship)
+        public async Task UpdateAsync(string townshipCode, TblPlaceTownship requestTownship)
         {
             var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new Exception("");
             existingTownship.TownshipName = requestTownship.TownshipName;
@@ -45,17 +48,23 @@
             _context.TblPlaceTownships.Update(existingTownship);
 
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new Exception("");
+            }
         }
 
-        public async Task<int> Delete(string townshipCode)
+        public async Task DeleteAsync(string townshipCode)
         {
             var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new Exception("");
             _context.Entry(existingTownship).State = EntityState.Deleted;
             _context.TblPlaceTownships.Remove(existingTownship);
 
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new Exception("");
+            }
         }
     }
 }
