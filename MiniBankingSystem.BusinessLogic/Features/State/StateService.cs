@@ -1,12 +1,4 @@
 ﻿using MiniBankingSystem.DataAccess.Services.State;
-using MiniBankingSystem.Entities.Request;
-using MiniBankingSystem.Entities.Response;
-using MiniBankingSystem.Utils.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniBankingSystem.BusinessLogic.Features.State
 {
@@ -24,7 +16,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
             List<StateResponseDTO> responseStates = new();
             foreach (var tblState in tblStates)
             {
-                responseStates.Add(StateMapper.ChangeToResponseDTO(tblState));
+                responseStates.Add(StateMapper.ChangeToResponseDTO(tblState)!);
             }
             return responseStates;
         }
