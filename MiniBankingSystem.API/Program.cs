@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MiniBankingSystem.BusinessLogic.Features.Account;
 using MiniBankingSystem.BusinessLogic.Features.State;
 using MiniBankingSystem.BusinessLogic.Features.Township;
 using MiniBankingSystem.DataAccess.EfAppContextModels;
+using MiniBankingSystem.DataAccess.Services.Account;
 using MiniBankingSystem.DataAccess.Services.State;
 using MiniBankingSystem.DataAccess.Services.Township;
 
@@ -21,6 +23,8 @@ builder.Services.AddScoped<StateDataAccess>();
 builder.Services.AddScoped<StateService>(); 
 builder.Services.AddScoped<TownshipDataAccess>();
 builder.Services.AddScoped<TownshipService>();
+builder.Services.AddScoped<AccountDataAccess>();
+builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 
