@@ -11,4 +11,7 @@ namespace MiniBankingSystem.Entities.Request
         public string Code { get; set; }
         public string Name { get; set; }
     }
+
+    public class StateUpdateRequestDTO
+    { public string Name { get; set; } }
 }

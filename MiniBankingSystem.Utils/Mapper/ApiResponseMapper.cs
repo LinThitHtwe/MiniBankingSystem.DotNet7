@@ -12,7 +12,10 @@ namespace MiniBankingSystem.Utils.Mapper
     {
         public static ApiResponse CreateApiResponse(object responseData, int statusCode = 200, string message = "")
         {
-            message ??= GenerateResponseMessages(statusCode);
+            if(string.IsNullOrWhiteSpace(message))
+            {
+                message = GenerateResponseMessages(statusCode);
+            }
 
             return new ApiResponse
             {

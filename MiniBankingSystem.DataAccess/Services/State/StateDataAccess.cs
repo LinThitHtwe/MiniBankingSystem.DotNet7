@@ -32,7 +32,7 @@
             }  
         }
 
-        public async Task<int> UpdateStateAysnc(string stateCode, TblPlaceState requestState)
+        public async Task UpdateStateAysnc(string stateCode, TblPlaceState requestState)
         {
             var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new Exception("");
             existingState.StateName = requestState.StateName;
@@ -40,17 +40,23 @@
             _context.TblPlaceStates.Update(existingState);
 
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new Exception("");
+            }
         }
 
-        public async  Task<int> DeleteStateAsync(string stateCode)
+        public async  Task DeleteStateAsync(string stateCode)
         {
             var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new Exception("");
             _context.Entry(existingState).State = EntityState.Deleted;
             _context.TblPlaceStates.Remove(existingState);
 
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new Exception("");
+            }
         }
     }
 }

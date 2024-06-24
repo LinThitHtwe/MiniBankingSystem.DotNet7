@@ -21,8 +21,8 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
         public async Task<List<StateResponseDTO>> GetAllStates()
         {
             var tblStates = await _stateDA.GetAllStatesAsync();
-            List<StateResponseDTO>  responseStates = new ();
-            foreach(var tblState in tblStates)
+            List<StateResponseDTO> responseStates = new();
+            foreach (var tblState in tblStates)
             {
                 responseStates.Add(StateMapper.ChangeToResponseDTO(tblState));
             }
@@ -43,5 +43,21 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
             return requestState;
         }
 
+        public async Task<StateRequestDTO> UpdateState(string stateCode, StateUpdateRequestDTO requestState)
+        {
+            var tblState = StateMapper.ChangeToTblState(requestState);
+            await _stateDA.UpdateStateAysnc(stateCode, tblState);
+            StateRequestDTO updatedState = new()
+            {
+                Code = stateCode,
+                Name = requestState.Name
+            };
+            return updatedState;
+        }
+
+        public async Task DeleteState(string stateCode)
+        {
+            await _stateDA.DeleteStateAsync(stateCode);
+        }
     }
 }

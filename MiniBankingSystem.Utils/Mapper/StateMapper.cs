@@ -28,5 +28,13 @@ namespace MiniBankingSystem.Utils.Mapper
                 StateName = stateRequestDTO.Name,
             };
         }
+
+        public static TblPlaceState ChangeToTblState(StateUpdateRequestDTO stateUpdateRequest)
+        {
+            return new TblPlaceState()
+            {
+                StateName = stateUpdateRequest.Name,
+            };
+        }
     }
 }

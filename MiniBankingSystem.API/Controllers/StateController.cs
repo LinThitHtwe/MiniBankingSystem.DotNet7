@@ -44,7 +44,7 @@ namespace MiniBankingSystem.API.Controllers
         {
             try
             {
-                if(stateRequest is null)
+                if (stateRequest is null)
                 {
                     return BadRequest();
                 }
@@ -57,5 +57,38 @@ namespace MiniBankingSystem.API.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("{stateCode}")]
+        public async Task<IActionResult> UpdateState(string stateCode,StateUpdateRequestDTO stateRequest)
+        {
+            try
+            {
+                var updatedState = await _stateService.UpdateState(stateCode, stateRequest);
+                var apiResponse = ApiResponseMapper.CreateApiResponse(updatedState,200,ApiResponseMessages.SuccessUpdate);
+                return Ok(apiResponse);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
+            }
+        }
+
+        [HttpDelete("{stateCode}")]
+        public async Task<IActionResult> DeleteState(string stateCode)
+        {
+            try
+            {
+                await _stateService.DeleteState(stateCode);
+                var apiResponse = ApiResponseMapper.CreateApiResponse(new {}, 200, ApiResponseMessages.SuccessDelete);
+                return Ok(apiResponse);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500,ApiResponseMapper.CreateApiResponse(e,ApiResponseCodes.InternalServerError,e.Message));
+            }
+        }
+
     }
 }
