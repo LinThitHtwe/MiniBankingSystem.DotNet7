@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.DataAccess.EfAppContextModels;
+using MiniBankingSystem.Entities.Request;
 using MiniBankingSystem.Entities.Response;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,19 @@ namespace MiniBankingSystem.Utils.Mapper
                                                      TransactionDate = tblTransactionHistory.TransactionDate,
                                                      TransactionType = tblTransactionHistory.TransactionType
                                                  };
+        }
+
+        public static TblTransactionHistory? ChangeToTbl(this TransactionRequestDTO transactionRequest)
+        {
+            return transactionRequest is null ? null : new TblTransactionHistory()
+            {
+                AdminUserCode = transactionRequest.AdminUserCode,
+                Amount = transactionRequest.Amount,
+                FromAccountNo = transactionRequest.FromAccountNo,
+                ToAccountNo = transactionRequest.ToAccountNo,
+                TransactionDate = transactionRequest.TransactionDate,
+                TransactionType = transactionRequest.TransactionType
+            };
         }
     }
 }

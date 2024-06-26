@@ -32,6 +32,22 @@ namespace MiniBankingSystem.API.Controllers
             return Ok(apiResponse);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateTransaction(TransactionRequestDTO transactionRequest)
+        {
+            var createdTransaction = await _transactionService.CreateTransaction(transactionRequest);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(createdTransaction, 201);
+            return Ok(apiResponse);
+        }
+
+        [HttpPut("{transactionId}")]
+        public async Task<IActionResult> UpdateTransaction(int transactionId,TransactionRequestDTO transactionRequest)
+        {
+            var updatedTransaction = await _transactionService.UpdateTransaction(transactionId, transactionRequest);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(updatedTransaction, 200, ApiResponseMessages.SuccessUpdate);
+            return Ok(apiResponse);
+        }
+
         [HttpDelete("{transactionId}")]
         public async Task<IActionResult> DeleteTransaction(int transactionId)
         {

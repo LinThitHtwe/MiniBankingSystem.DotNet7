@@ -34,6 +34,20 @@ namespace MiniBankingSystem.BusinessLogic.Features.Transactions
             return tblTransactionHistory.ChangeToResponseDTO();
         }
 
+        public async Task<TransactionRequestDTO> CreateTransaction(TransactionRequestDTO transactionRequest)
+        {
+            var tblTransaction = transactionRequest.ChangeToTbl();
+            await _transactionDA.CreateTransactionAsync(tblTransaction);
+            return transactionRequest;
+        }
+
+        public async Task<TransactionRequestDTO> UpdateTransaction(int transactionId,TransactionRequestDTO transactionRequest)
+        {
+            var tblTransaction = transactionRequest.ChangeToTbl();
+            await _transactionDA.UpdateTransactionAsync(transactionId, tblTransaction);
+            return transactionRequest;
+        }
+
         public async Task DeleteTransaction(int transactionId)
         {
             await _transactionDA.DeleteTransactionAsync(transactionId);
