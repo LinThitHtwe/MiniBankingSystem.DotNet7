@@ -3,10 +3,10 @@ using System.Net;
 
 namespace MiniBankingSystem.API.Exceptions
 {
-    public class CustomeExceptionMiddleware
+    public class HandleExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        public CustomeExceptionMiddleware(RequestDelegate requestDelegate)
+        public HandleExceptionMiddleware(RequestDelegate requestDelegate)
         {
             _next = requestDelegate;
         }
@@ -17,13 +17,9 @@ namespace MiniBankingSystem.API.Exceptions
             {
                 await _next(httpContext);
             }
-            catch(NotFoundException ex)
+            catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
-            }
-            catch (Exception)
-            {
-                //await HandleExceptionAsync(httpContext);
+                await HandleExceptionAsync(httpContext,ex);
             }
         }
 
@@ -51,6 +47,28 @@ namespace MiniBankingSystem.API.Exceptions
                         message = ex.Message,
                         responseData = new object(),
                         statusCode = (int)HttpStatusCode.InternalServerError,
+                        time = DateTime.Now,
+                    });
+                    break;
+
+                case InvalidAccountException ex:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+                    {
+                        message = ex.Message,
+                        responseData = new object(),
+                        statusCode = (int)HttpStatusCode.BadRequest,
+                        time = DateTime.Now,
+                    });
+                    break;
+
+                case InvalidBankActionAmountException ex:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+                    {
+                        message = ex.Message,
+                        responseData = new object(),
+                        statusCode = (int)HttpStatusCode.BadRequest,
                         time = DateTime.Now,
                     });
                     break;

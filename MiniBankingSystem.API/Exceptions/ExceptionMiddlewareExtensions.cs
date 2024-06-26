@@ -12,7 +12,7 @@
 
         public static void CustomExceptionMiddleware(this IApplicationBuilder app)
         {
-            app.UseMiddleware<CustomeExceptionMiddleware>();
+            app.UseMiddleware<HandleExceptionMiddleware>();
         }
     }
 }

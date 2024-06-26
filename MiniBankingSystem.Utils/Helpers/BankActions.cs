@@ -70,6 +70,8 @@ namespace MiniBankingSystem.Utils.Helpers
 
             account.Balance -= request.Amount;
 
+            await _accountDataAccess.UpdateAsync(request.AccountNo, account);
+
             bankActionResponse.newBalance = account.Balance;
             bankActionResponse.accountName = account.CustomerName;
             bankActionResponse.time = DateTime.Now;
