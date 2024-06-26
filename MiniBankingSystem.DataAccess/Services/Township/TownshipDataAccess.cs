@@ -1,4 +1,6 @@
-﻿namespace MiniBankingSystem.DataAccess.Services.Township
+﻿using MiniBankingSystem.Constants.Exceptions;
+
+namespace MiniBankingSystem.DataAccess.Services.Township
 {
     public class TownshipDataAccess
     {
@@ -35,13 +37,13 @@
             var result = await _context.SaveChangesAsync();
             if (result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("Township Create Error");
             }
         }
 
         public async Task UpdateAsync(string townshipCode, TblPlaceTownship requestTownship)
         {
-            var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new Exception("");
+            var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new NotFoundException("Township Not Found");
             existingTownship.TownshipName = requestTownship.TownshipName;
             existingTownship.StateCode = requestTownship.StateCode;
             _context.Entry(existingTownship).State = EntityState.Modified;
@@ -50,20 +52,20 @@
             var result = await _context.SaveChangesAsync();
             if (result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("Township Update Error");
             }
         }
 
         public async Task DeleteAsync(string townshipCode)
         {
-            var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new Exception("");
+            var existingTownship = await GetTownshipByCodeAsync(townshipCode) ?? throw new NotFoundException("");
             _context.Entry(existingTownship).State = EntityState.Deleted;
             _context.TblPlaceTownships.Remove(existingTownship);
 
             var result = await _context.SaveChangesAsync();
             if (result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("Township Delete Error");
             }
         }
     }

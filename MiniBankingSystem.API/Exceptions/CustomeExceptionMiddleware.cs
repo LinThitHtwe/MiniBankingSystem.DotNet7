@@ -27,31 +27,46 @@ namespace MiniBankingSystem.API.Exceptions
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext httpContext,Exception exception)
+        private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            if(exception is NotFoundException)
-            {
-                httpContext.Response.ContentType = "application/json";
-                httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
-                {
-                    message = "NotFound Test Exception CUstom",
-                    responseData = { },
-                    statusCode = (int)HttpStatusCode.NotFound,
-                    time = DateTime.Now,
-                });
-                return;
-            }
-
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+
+            switch (exception)
             {
-                message = "Test Exception CUstom",
-                responseData = { },
-                statusCode = (int)HttpStatusCode.InternalServerError,
-                time = DateTime.Now,
-            });
+                case NotFoundException ex:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+                    {
+                        message = ex.Message,
+                        responseData = new object(),
+                        statusCode = (int)HttpStatusCode.NotFound,
+                        time = DateTime.Now,
+                    });
+                    break;
+
+                case DBModifyException ex:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError; 
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+                    {
+                        message = ex.Message,
+                        responseData = new object(),
+                        statusCode = (int)HttpStatusCode.InternalServerError,
+                        time = DateTime.Now,
+                    });
+                    break;
+
+                default:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse()
+                    {
+                        message = "An unexpected error occurred.",
+                        responseData = new object(),
+                        statusCode = (int)HttpStatusCode.InternalServerError,
+                        time = DateTime.Now,
+                    });
+                    break;
+            }
         }
+
     }
 }

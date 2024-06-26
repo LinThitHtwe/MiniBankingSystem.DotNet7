@@ -1,4 +1,5 @@
-﻿using MiniBankingSystem.DataAccess.Services.State;
+﻿using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.DataAccess.Services.State;
 using MiniBankingSystem.DataAccess.Services.Township;
 
 namespace MiniBankingSystem.BusinessLogic.Features.Township
@@ -61,11 +62,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
 
         private async Task CheckInvalidStateCode(string stateCode)
         {
-            var existingState = await _stateDA.GetStateByStateCodeAsync(stateCode);
-            if (existingState is null)
-            {
-                throw new Exception("");
-            }
+            _ = await _stateDA.GetStateByStateCodeAsync(stateCode) ?? throw new NotFoundException("Invalid State Code");
         }
     }
 }

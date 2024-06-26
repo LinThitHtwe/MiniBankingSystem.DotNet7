@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.BusinessLogic.Features.Township;
+using MiniBankingSystem.Constants.Exceptions;
 
 namespace MiniBankingSystem.API.Controllers
 {
@@ -24,78 +25,33 @@ namespace MiniBankingSystem.API.Controllers
         [HttpGet("{townshipCode}")]
         public async Task<IActionResult> GetTownshipByCode(string townshipCode)
         {
-            try
-            {
-                var township = await _townshipService.GetTownshipByCode(townshipCode);
-                if (township is null)
-                {
-                    return NotFound(ApiResponseMapper.CreateApiResponse(new { }, ApiResponseCodes.NotFound));
-                }
-                var apiResponse = ApiResponseMapper.CreateApiResponse(township);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            var township = await _townshipService.GetTownshipByCode(townshipCode) ?? throw new NotFoundException("Township Not Found");
+            var apiResponse = ApiResponseMapper.CreateApiResponse(township);
+            return Ok(apiResponse);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTownship(TownshipRequestDTO requestTownship)
         {
-            if(requestTownship is null)
-            {
-                return BadRequest();
-            }
-            try
-            {
-                var createdTownship = await _townshipService.CreateTownship(requestTownship);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(createdTownship,ApiResponseCodes.Created);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            var createdTownship = await _townshipService.CreateTownship(requestTownship);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(createdTownship, ApiResponseCodes.Created);
+            return Ok(apiResponse);
         }
 
         [HttpPut("{townshipCode}")]
-        public async Task<IActionResult> UpdateTownship(string townshipCode,TownshipUpdateRequestDTO requestTownship)
+        public async Task<IActionResult> UpdateTownship(string townshipCode, TownshipUpdateRequestDTO requestTownship)
         {
-            if(requestTownship is null)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                var updatedTownship = await _townshipService.UpdateTownship(townshipCode, requestTownship);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(updatedTownship, ApiResponseCodes.Success, ApiResponseMessages.SuccessUpdate);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            var updatedTownship = await _townshipService.UpdateTownship(townshipCode, requestTownship);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(updatedTownship, ApiResponseCodes.Success, ApiResponseMessages.SuccessUpdate);
+            return Ok(apiResponse);
         }
 
         [HttpDelete("{townshipCode}")]
         public async Task<IActionResult> DeleteTownship(string townshipCode)
         {
-            try
-            {
-                await _townshipService.DeleteTownship(townshipCode);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(new { }, 200, ApiResponseMessages.SuccessDelete);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            await _townshipService.DeleteTownship(townshipCode);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(new { }, 200, ApiResponseMessages.SuccessDelete);
+            return Ok(apiResponse);
         }
     }
 }

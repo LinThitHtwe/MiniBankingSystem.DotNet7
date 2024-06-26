@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.BusinessLogic.Features.Account;
+using MiniBankingSystem.Constants.Exceptions;
 
 namespace MiniBankingSystem.API.Controllers
 {
@@ -16,31 +17,18 @@ namespace MiniBankingSystem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAccounts()
         {
-                throw new Exception("Accounts");
-                var accounts = await _accountService.GetAllAccounts();
-                var apiResponse = ApiResponseMapper.CreateApiResponse(accounts);
-                return Ok(apiResponse);
+            var accounts = await _accountService.GetAllAccounts();
+            var apiResponse = ApiResponseMapper.CreateApiResponse(accounts);
+            return Ok(apiResponse);
         }
 
 
         [HttpGet("{accountNo}")]
         public async Task<IActionResult> GetAccountByAccountNo(string accountNo)
         {
-            try
-            {
-                var account = await _accountService.GetAccountByAccountNo(accountNo);
-                if(account is null)
-                {
-                    return NotFound(ApiResponseMapper.CreateApiResponse(new {},ApiResponseCodes.NotFound));
-                }
-                var apiResponse = ApiResponseMapper.CreateApiResponse(account);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            var account = await _accountService.GetAccountByAccountNo(accountNo) ?? throw new NotFoundException("Account Not Found");
+            var apiResponse = ApiResponseMapper.CreateApiResponse(account);
+            return Ok(apiResponse);
         }
     }
 }

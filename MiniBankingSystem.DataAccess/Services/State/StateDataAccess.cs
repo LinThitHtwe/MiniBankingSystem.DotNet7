@@ -30,13 +30,13 @@ namespace MiniBankingSystem.DataAccess.Services.State
             var result = await  _context.SaveChangesAsync();
             if(result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("State Not Created");
             }  
         }
 
         public async Task UpdateStateAysnc(string stateCode, TblPlaceState requestState)
         {
-            var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new Exception("");
+            var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new NotFoundException("State Not Found");
             existingState.StateName = requestState.StateName;
             _context.Entry(existingState).State = EntityState.Modified;
             _context.TblPlaceStates.Update(existingState);
@@ -44,7 +44,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
             var result = await _context.SaveChangesAsync();
             if (result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("State Update Error");
             }
         }
 
@@ -57,7 +57,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
             var result = await _context.SaveChangesAsync();
             if (result < 1)
             {
-                throw new Exception("");
+                throw new DBModifyException("State Delete Error");
             }
         }
     }

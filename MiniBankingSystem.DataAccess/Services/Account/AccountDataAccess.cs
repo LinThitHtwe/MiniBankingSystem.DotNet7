@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniBankingSystem.Constants.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -36,20 +37,24 @@ namespace MiniBankingSystem.DataAccess.Services.Account
             return result;
         }
 
-        public async Task<int> UpdateAsync(string accountNo, TblAccount requestAccount)
+        public async Task UpdateAsync(string accountNo, TblAccount requestAccount)
         {
-            var existingAccount = await GetAccountByAccountNoAsync(accountNo) ?? throw new Exception("");
+            var existingAccount = await GetAccountByAccountNoAsync(accountNo) ?? throw new NotFoundException("Account Not Found");
             existingAccount.CustomerName = requestAccount.CustomerName;
             existingAccount.Balance = requestAccount.Balance;
             _context.Entry(existingAccount).State = EntityState.Modified;
             _context.TblAccounts.Update(existingAccount);
             var result = await _context.SaveChangesAsync();
-            return result;
+            if (result < 1)
+            {
+                throw new DBModifyException("Account Delete Error");
+            }
+            
         }
 
         public async Task<int> DeleteAsync(string accountNo)
         {
-            var existingAccount = await GetAccountByAccountNoAsync(accountNo) ?? throw new Exception("");
+            var existingAccount = await GetAccountByAccountNoAsync(accountNo) ?? throw new NotFoundException("Account Not Found");
             _context.Entry(existingAccount).State = EntityState.Deleted;
             _context.TblAccounts.Remove(existingAccount);
             var result = await _context.SaveChangesAsync();

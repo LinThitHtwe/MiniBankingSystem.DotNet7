@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.BusinessLogic.Features.State;
+using MiniBankingSystem.Constants.Exceptions;
 
 namespace MiniBankingSystem.API.Controllers
 {
@@ -16,18 +17,14 @@ namespace MiniBankingSystem.API.Controllers
         public async Task<IActionResult> GetAllState()
         {
             var states = await _stateService.GetAllStates();
-            var apiResponse = ApiResponseMapper.CreateApiResponse(states,ApiResponseCodes.Success);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(states, ApiResponseCodes.Success);
             return Ok(apiResponse);
         }
 
         [HttpGet("{stateCode}")]
         public async Task<IActionResult> GetStateByStateCode(string stateCode)
         {
-            var state = await _stateService.GetStateByStateCode(stateCode);
-            if(state is null)
-            {
-                return NotFound();
-            }
+            var state = await _stateService.GetStateByStateCode(stateCode) ?? throw new NotFoundException("State Not Found");
             var apiResponse = ApiResponseMapper.CreateApiResponse(state, ApiResponseCodes.Success);
             return Ok(apiResponse);
         }
@@ -35,52 +32,25 @@ namespace MiniBankingSystem.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateState(StateRequestDTO stateRequest)
         {
-            try
-            {
-                if (stateRequest is null)
-                {
-                    return BadRequest();
-                }
-                var createdState = await _stateService.CreateState(stateRequest);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(createdState, ApiResponseCodes.Created);
-                return Ok(apiResponse);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            var createdState = await _stateService.CreateState(stateRequest);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(createdState, ApiResponseCodes.Created);
+            return Ok(apiResponse);
         }
 
         [HttpPut("{stateCode}")]
-        public async Task<IActionResult> UpdateState(string stateCode,StateUpdateRequestDTO stateRequest)
+        public async Task<IActionResult> UpdateState(string stateCode, StateUpdateRequestDTO stateRequest)
         {
-            try
-            {
-                var updatedState = await _stateService.UpdateState(stateCode, stateRequest);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(updatedState,200,ApiResponseMessages.SuccessUpdate);
-                return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, ApiResponseMapper.CreateApiResponse(e, ApiResponseCodes.InternalServerError, e.Message));
-            }
+            var updatedState = await _stateService.UpdateState(stateCode, stateRequest);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(updatedState, 200, ApiResponseMessages.SuccessUpdate);
+            return Ok(apiResponse);
         }
 
         [HttpDelete("{stateCode}")]
         public async Task<IActionResult> DeleteState(string stateCode)
         {
-            //try
-            //{
-                await _stateService.DeleteState(stateCode);
-                var apiResponse = ApiResponseMapper.CreateApiResponse(new {}, 200, ApiResponseMessages.SuccessDelete);
-                return Ok(apiResponse);
-            //}
-            //catch (Exception e)
-            //{
-
-            //    return StatusCode(500,ApiResponseMapper.CreateApiResponse(e,ApiResponseCodes.InternalServerError,e.Message));
-            //}
+            await _stateService.DeleteState(stateCode);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(new { }, 200, ApiResponseMessages.SuccessDelete);
+            return Ok(apiResponse);
         }
 
     }
