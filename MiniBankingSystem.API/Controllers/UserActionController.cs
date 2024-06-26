@@ -25,9 +25,11 @@ namespace MiniBankingSystem.API.Controllers
         }
 
         [HttpPost("Withdraw")]
-        public async Task<IActionResult> Withdraw()
+        public async Task<IActionResult> Withdraw(BankActionRequest bankActionRequest)
         {
-            return Ok();
+            var bankActionResponse = await _bankActions.Withdraw(bankActionRequest);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(bankActionResponse, ApiResponseCodes.Success, "Successfully Withdraw");
+            return Ok(apiResponse);
         }
     }
 }
