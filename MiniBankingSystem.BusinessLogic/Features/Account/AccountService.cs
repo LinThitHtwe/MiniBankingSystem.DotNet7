@@ -33,5 +33,10 @@ namespace MiniBankingSystem.BusinessLogic.Features.Account
             var responseAccount = AccountMapper.ChangeToResponseDTO(tblAccount);
             return responseAccount;
         }
+
+        public async Task DeleteAccount(string accountNo)
+        {
+            await _accountDA.DeleteAsync(accountNo);
+        }
     }
 }

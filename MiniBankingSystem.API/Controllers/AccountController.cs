@@ -27,8 +27,20 @@ namespace MiniBankingSystem.API.Controllers
         public async Task<IActionResult> GetAccountByAccountNo(string accountNo)
         {
             var account = await _accountService.GetAccountByAccountNo(accountNo) ?? throw new NotFoundException("Account Not Found");
-            var apiResponse = ApiResponseMapper.CreateApiResponse(account);
-            return Ok(apiResponse);
+            return Ok(ApiResponseMapper.CreateApiResponse(account));
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateAccount()
+
+        //[HttpPut("{accountNo}")]
+        //public async Task<IActionResult> UpdateAccount(string no, Account)
+
+        [HttpDelete("{accountNo}")]
+        public async Task<IActionResult> DeleteAccount(string accountNo)
+        {
+            await _accountService.DeleteAccount(accountNo);
+            return Ok(ApiResponseMapper.CreateApiResponse(new { }, 200, ApiResponseMessages.SuccessDelete));
         }
     }
 }
