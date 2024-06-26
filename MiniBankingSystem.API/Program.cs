@@ -9,6 +9,7 @@ using MiniBankingSystem.DataAccess.Services.Account;
 using MiniBankingSystem.DataAccess.Services.State;
 using MiniBankingSystem.DataAccess.Services.Township;
 using MiniBankingSystem.DataAccess.Services.TransactionHistory;
+using MiniBankingSystem.Utils.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped<AccountDataAccess>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<TransactionHistoryDataAccess>();
 builder.Services.AddScoped<TransactionService>();
+builder.Services.AddScoped<BankActions>();
 
 var app = builder.Build();
 

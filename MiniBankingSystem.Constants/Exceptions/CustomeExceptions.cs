@@ -18,4 +18,18 @@
         public DBModifyException(string message, DBModifyException innerException) : base(message, innerException) { }
     }
 
+    public class InvalidAccountException : Exception
+    {
+        public InvalidAccountException() : base() { }
+        public InvalidAccountException(string message) : base(message) { }
+        public InvalidAccountException(string message, InvalidAccountException innerException) : base(message, innerException) { }
+    }
+
+    public class InvalidBankActionAmountException : Exception
+    {
+        public InvalidBankActionAmountException() : base() { }
+        public InvalidBankActionAmountException(string message) : base(message) { }
+        public InvalidBankActionAmountException(string message, InvalidBankActionAmountException innerException) : base(message, innerException) { }
+    }
+
 }
