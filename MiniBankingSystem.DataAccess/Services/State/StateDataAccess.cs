@@ -27,7 +27,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
         public async Task CreateStateAsync(TblPlaceState state)
         {
             await _context.TblPlaceStates.AddAsync(state);
-            var result = await  _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
             if(result < 1)
             {
                 throw new DBModifyException("State Not Created");
