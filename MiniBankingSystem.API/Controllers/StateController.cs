@@ -70,17 +70,17 @@ namespace MiniBankingSystem.API.Controllers
         [HttpDelete("{stateCode}")]
         public async Task<IActionResult> DeleteState(string stateCode)
         {
-            try
-            {
+            //try
+            //{
                 await _stateService.DeleteState(stateCode);
                 var apiResponse = ApiResponseMapper.CreateApiResponse(new {}, 200, ApiResponseMessages.SuccessDelete);
                 return Ok(apiResponse);
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
 
-                return StatusCode(500,ApiResponseMapper.CreateApiResponse(e,ApiResponseCodes.InternalServerError,e.Message));
-            }
+            //    return StatusCode(500,ApiResponseMapper.CreateApiResponse(e,ApiResponseCodes.InternalServerError,e.Message));
+            //}
         }
 
     }

@@ -1,4 +1,6 @@
-﻿namespace MiniBankingSystem.DataAccess.Services.State
+﻿using MiniBankingSystem.Constants.Exceptions;
+
+namespace MiniBankingSystem.DataAccess.Services.State
 {
     public class StateDataAccess
     {
@@ -48,7 +50,7 @@
 
         public async  Task DeleteStateAsync(string stateCode)
         {
-            var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new Exception("");
+            var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new NotFoundException("State Not Found");
             _context.Entry(existingState).State = EntityState.Deleted;
             _context.TblPlaceStates.Remove(existingState);
 

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MiniBankingSystem.API.Exceptions;
 using MiniBankingSystem.BusinessLogic.Features.Account;
 using MiniBankingSystem.BusinessLogic.Features.State;
 using MiniBankingSystem.BusinessLogic.Features.Township;
@@ -28,12 +29,15 @@ builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.CustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

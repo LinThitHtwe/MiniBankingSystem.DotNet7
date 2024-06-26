@@ -16,10 +16,12 @@ namespace MiniBankingSystem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAccounts()
         {
-            var accounts = await _accountService.GetAllAccounts();
-            var apiResponse = ApiResponseMapper.CreateApiResponse(accounts);
-            return Ok(apiResponse);
+                throw new Exception("Accounts");
+                var accounts = await _accountService.GetAllAccounts();
+                var apiResponse = ApiResponseMapper.CreateApiResponse(accounts);
+                return Ok(apiResponse);
         }
+
 
         [HttpGet("{accountNo}")]
         public async Task<IActionResult> GetAccountByAccountNo(string accountNo)
