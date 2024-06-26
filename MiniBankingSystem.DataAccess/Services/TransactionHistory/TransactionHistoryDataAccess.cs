@@ -17,13 +17,13 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             return transactionHistories;
         }
 
-        public async Task<TblTransactionHistory?> GetTransactionHistoryById(int transactionId)
+        public async Task<TblTransactionHistory?> GetTransactionHistoryByIdAsync(int transactionId)
         {
             var transactionHistory = await _context.TblTransactionHistories.AsNoTracking().FirstOrDefaultAsync(th => th.TransactionHistoryId == transactionId);
             return transactionHistory;
         }
 
-        public async Task CreateTransaction(TblTransactionHistory tblTransactionHistory)
+        public async Task CreateTransactionAsync(TblTransactionHistory tblTransactionHistory)
         {
             await _context.TblTransactionHistories.AddAsync(tblTransactionHistory);
             int result = await _context.SaveChangesAsync();
@@ -33,9 +33,9 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             }
         }
 
-        public async Task UpdateTransaction(int transactionId, TblTransactionHistory requestTransactionHistory)
+        public async Task UpdateTransactionAsync(int transactionId, TblTransactionHistory requestTransactionHistory)
         {
-            var existingTransactionHistory = await GetTransactionHistoryById(transactionId)
+            var existingTransactionHistory = await GetTransactionHistoryByIdAsync(transactionId)
                                             ?? throw new NotFoundException("Transaction Not Found");
 
             existingTransactionHistory.Amount = requestTransactionHistory.Amount;
@@ -52,9 +52,9 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             }
         }
 
-        public async Task DeleteTransaction(int transactionId)
+        public async Task DeleteTransactionAsync(int transactionId)
         {
-            var existingTransactionHistory = await GetTransactionHistoryById(transactionId) 
+            var existingTransactionHistory = await GetTransactionHistoryByIdAsync(transactionId) 
                                             ?? throw new NotFoundException("Transaction Not Found");
 
             _context.Entry(existingTransactionHistory).State = EntityState.Deleted;

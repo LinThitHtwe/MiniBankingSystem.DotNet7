@@ -3,10 +3,12 @@ using MiniBankingSystem.API.Exceptions;
 using MiniBankingSystem.BusinessLogic.Features.Account;
 using MiniBankingSystem.BusinessLogic.Features.State;
 using MiniBankingSystem.BusinessLogic.Features.Township;
+using MiniBankingSystem.BusinessLogic.Features.Transactions;
 using MiniBankingSystem.DataAccess.EfAppContextModels;
 using MiniBankingSystem.DataAccess.Services.Account;
 using MiniBankingSystem.DataAccess.Services.State;
 using MiniBankingSystem.DataAccess.Services.Township;
+using MiniBankingSystem.DataAccess.Services.TransactionHistory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddScoped<TownshipDataAccess>();
 builder.Services.AddScoped<TownshipService>();
 builder.Services.AddScoped<AccountDataAccess>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<TransactionHistoryDataAccess>();
+builder.Services.AddScoped<TransactionService>();
 
 var app = builder.Build();
 
