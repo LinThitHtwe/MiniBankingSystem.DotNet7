@@ -16,7 +16,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
             List<StateResponseDTO> responseStates = new();
             foreach (var tblState in tblStates)
             {
-                responseStates.Add(StateMapper.ChangeToResponseDTO(tblState)!);
+                responseStates.Add(tblState.ChangeToResponseDTO()!);
             }
             return responseStates;
         }
@@ -27,7 +27,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
             List<StateResponseDTO> responseStates = new();
             foreach (var tblState in paginatedTblStates.Data)
             {
-                responseStates.Add(StateMapper.ChangeToResponseDTO(tblState)!);
+                responseStates.Add(tblState.ChangeToResponseDTO()!);
             }
             var paginatedApiResponse = new PaginatedApiResponse()
             {
@@ -42,20 +42,20 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
         public async Task<StateResponseDTO?> GetStateByStateCode(string stateCode)
         {
             var tblState = await _stateDA.GetStateByStateCodeAsync(stateCode);
-            var responseState = StateMapper.ChangeToResponseDTO(tblState);
+            var responseState = tblState.ChangeToResponseDTO();
             return responseState;
         }
 
         public async Task<StateRequestDTO> CreateState(StateRequestDTO requestState)
         {
-            var tblState = StateMapper.ChangeToTblState(requestState);
+            var tblState = requestState.ChangeToTblState();
             await _stateDA.CreateStateAsync(tblState);
             return requestState;
         }
 
         public async Task<StateRequestDTO> UpdateState(string stateCode, StateUpdateRequestDTO requestState)
         {
-            var tblState = StateMapper.ChangeToTblState(requestState);
+            var tblState = requestState.ChangeToTblState();
             await _stateDA.UpdateStateAysnc(stateCode, tblState);
             StateRequestDTO updatedState = new()
             {

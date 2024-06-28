@@ -38,6 +38,11 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             return paginatedResponse;
         }
 
+        //public async Task<List<TblTransactionHistory>> FilterTransactionHistories()
+        //{
+        //    return new List<TblTransactionHistory>;
+        //}
+
         public async Task<TblTransactionHistory?> GetTransactionHistoryByIdAsync(int transactionId)
         {
             var transactionHistory = await _context.TblTransactionHistories.AsNoTracking().FirstOrDefaultAsync(th => th.TransactionHistoryId == transactionId);

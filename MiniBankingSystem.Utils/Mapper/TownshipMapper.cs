@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MiniBankingSystem.Utils.Mapper
 {
-    public class TownshipMapper
+    public static class TownshipMapper
     {
-        public static TownshipResponseDTO? ChangeToResponseDTO(TblPlaceTownship tblPlaceTownship)
+        public static TownshipResponseDTO? ChangeToResponseDTO(this TblPlaceTownship tblPlaceTownship)
         {
             return tblPlaceTownship == null ? null : new TownshipResponseDTO()
             {
@@ -21,7 +21,7 @@ namespace MiniBankingSystem.Utils.Mapper
             };
         }
 
-        public static TblPlaceTownship? ChangeToTblTownship(TownshipRequestDTO townshipRequest)
+        public static TblPlaceTownship? ChangeToTblTownship(this TownshipRequestDTO townshipRequest)
         {
             return townshipRequest == null ? null : new TblPlaceTownship()
             {
@@ -31,7 +31,7 @@ namespace MiniBankingSystem.Utils.Mapper
             };
         }
 
-        public static TblPlaceTownship? ChangeToTblTownship(TownshipUpdateRequestDTO townshipRequest)
+        public static TblPlaceTownship? ChangeToTblTownship(this TownshipUpdateRequestDTO townshipRequest)
         {
             return townshipRequest == null ? null : new TblPlaceTownship()
             {

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MiniBankingSystem.Utils.Mapper
 {
-    public class AccountMapper
+    public static class AccountMapper
     {
-        public static AccountResponseDTO? ChangeToResponseDTO(TblAccount? tblAccount)
+        public static AccountResponseDTO? ChangeToResponseDTO(this TblAccount? tblAccount)
         {
             return tblAccount == null ? null : new AccountResponseDTO()
             {

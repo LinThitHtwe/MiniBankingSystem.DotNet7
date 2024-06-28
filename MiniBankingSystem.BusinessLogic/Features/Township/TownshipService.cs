@@ -22,7 +22,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
             List<TownshipResponseDTO> responseTownships = new();
             foreach (var township in tblPlaceTownships)
             {
-                responseTownships.Add(TownshipMapper.ChangeToResponseDTO(township)!);
+                responseTownships.Add(township.ChangeToResponseDTO()!);
             }
             return responseTownships;
         }
@@ -33,7 +33,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
             List<TownshipResponseDTO> responseTownships = new();
             foreach (var township in tblPlaceTownships)
             {
-                responseTownships.Add(TownshipMapper.ChangeToResponseDTO(township)!);
+                responseTownships.Add(township.ChangeToResponseDTO()!);
             }
             return responseTownships;
         }
@@ -44,7 +44,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
             List<TownshipResponseDTO> responseTownships = new();
             foreach (var tblTownship in paginatedTblTownships.Data)
             {
-                responseTownships.Add(TownshipMapper.ChangeToResponseDTO(tblTownship));
+                responseTownships.Add(tblTownship.ChangeToResponseDTO());
             }
             var paginatedApiResponse = new PaginatedApiResponse()
             {
@@ -59,14 +59,14 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
         public async Task<TownshipResponseDTO?> GetTownshipByCode(string townshipCode)
         {
             var tblPlaceTownship = await _townshipDA.GetTownshipByCodeAsync(townshipCode);
-            var responseTownship = TownshipMapper.ChangeToResponseDTO(tblPlaceTownship);
+            var responseTownship = tblPlaceTownship.ChangeToResponseDTO();
             return responseTownship;
         }
 
         public async Task<TownshipRequestDTO> CreateTownship(TownshipRequestDTO requestTownship)
         {
             await CheckInvalidStateCode(requestTownship.StateCode);
-            var tblTownship = TownshipMapper.ChangeToTblTownship(requestTownship);
+            var tblTownship = requestTownship.ChangeToTblTownship();
             await _townshipDA.CreateAsync(tblTownship);
             return requestTownship;
         }
@@ -74,7 +74,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
         public async Task<TownshipResponseDTO> UpdateTownship(string townshipCode, TownshipUpdateRequestDTO requestTownship)
         {
             await CheckInvalidStateCode(requestTownship.StateCode);
-            var tblTownship = TownshipMapper.ChangeToTblTownship(requestTownship);
+            var tblTownship = requestTownship.ChangeToTblTownship();
             await _townshipDA.UpdateAsync(townshipCode, tblTownship);
             TownshipResponseDTO responseTownship = new()
             {

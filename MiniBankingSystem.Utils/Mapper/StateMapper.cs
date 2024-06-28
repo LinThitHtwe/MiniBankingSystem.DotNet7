@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MiniBankingSystem.Utils.Mapper
 {
-    public class StateMapper
+    public static class StateMapper
     {
-        public static StateResponseDTO? ChangeToResponseDTO(TblPlaceState tblPlaceState)
+        public static StateResponseDTO? ChangeToResponseDTO(this TblPlaceState tblPlaceState)
         {
             return tblPlaceState == null ? null : new StateResponseDTO
             {
@@ -20,7 +20,7 @@ namespace MiniBankingSystem.Utils.Mapper
             };
         }
 
-        public static TblPlaceState ChangeToTblState(StateRequestDTO stateRequestDTO)
+        public static TblPlaceState ChangeToTblState(this StateRequestDTO stateRequestDTO)
         {
             return new TblPlaceState()
             {
@@ -29,7 +29,7 @@ namespace MiniBankingSystem.Utils.Mapper
             };
         }
 
-        public static TblPlaceState ChangeToTblState(StateUpdateRequestDTO stateUpdateRequest)
+        public static TblPlaceState ChangeToTblState(this StateUpdateRequestDTO stateUpdateRequest)
         {
             return new TblPlaceState()
             {

@@ -23,7 +23,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Account
             List<AccountResponseDTO> responseAccounts = new();
             foreach (var tblAccount in tblAccounts)
             {
-                responseAccounts.Add(AccountMapper.ChangeToResponseDTO(tblAccount));
+                responseAccounts.Add(tblAccount.ChangeToResponseDTO());
             }
             return responseAccounts;
         }
@@ -34,7 +34,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Account
             List<AccountResponseDTO> responseAccounts = new();
             foreach (var tblAccount in paginatedTblAccouunts.Data)
             {
-                responseAccounts.Add(AccountMapper.ChangeToResponseDTO(tblAccount));
+                responseAccounts.Add(tblAccount.ChangeToResponseDTO());
             }
             var paginatedApiResponse = new PaginatedApiResponse()
             {
