@@ -1,4 +1,5 @@
-﻿using MiniBankingSystem.BusinessLogic.Features.Township;
+﻿using MiniBankingSystem.BusinessLogic.Features.State;
+using MiniBankingSystem.BusinessLogic.Features.Township;
 using MiniBankingSystem.Constants.Exceptions;
 
 namespace MiniBankingSystem.API.Controllers
@@ -19,6 +20,14 @@ namespace MiniBankingSystem.API.Controllers
         {
             var townships = await _townshipService.GetAllTownships();
             var apiResponse = ApiResponseMapper.CreateApiResponse(townships);
+            return Ok(apiResponse);
+        }
+
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetPaginatedTownships([FromQuery] int currentPageNo = 1, [FromQuery] int itemPerPage = 10)
+        {
+            var paginatedResponse = await _townshipService.GetPaginatedTownships(currentPageNo, itemPerPage);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(paginatedResponse);
             return Ok(apiResponse);
         }
 

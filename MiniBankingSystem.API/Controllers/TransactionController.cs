@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MiniBankingSystem.BusinessLogic.Features.Township;
 using MiniBankingSystem.BusinessLogic.Features.Transactions;
 using MiniBankingSystem.Constants.Exceptions;
 
@@ -21,6 +22,14 @@ namespace MiniBankingSystem.API.Controllers
         {
             var transactionHistories = await _transactionService.GetAllTransactionHistories();
             var apiResponse = ApiResponseMapper.CreateApiResponse(transactionHistories);
+            return Ok(apiResponse);
+        }
+
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetPaginatedTransactions([FromQuery] int currentPageNo = 1, [FromQuery] int itemPerPage = 10)
+        {
+            var paginatedResponse = await _transactionService.GetPaginatedTransactionHistories(currentPageNo, itemPerPage);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(paginatedResponse);
             return Ok(apiResponse);
         }
 

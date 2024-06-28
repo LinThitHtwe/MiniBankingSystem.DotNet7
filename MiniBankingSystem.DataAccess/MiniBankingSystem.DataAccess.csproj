@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\MiniBankingSystem.Constants\MiniBankingSystem.Constants.csproj" />
+	  <ProjectReference Include="..\MiniBankingSystem.Entities\MiniBankingSystem.Entities.csproj" />
 	</ItemGroup>
 
 </Project>

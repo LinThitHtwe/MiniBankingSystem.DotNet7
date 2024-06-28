@@ -22,6 +22,13 @@ namespace MiniBankingSystem.API.Controllers
             return Ok(apiResponse);
         }
 
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetPaginatedAccounts([FromQuery] int currentPageNo = 1, [FromQuery] int itemPerPage =10)
+        {
+            var paginatedResponse = await _accountService.GetPaginatedAccounts(currentPageNo, itemPerPage);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(paginatedResponse);
+            return Ok(apiResponse);
+        }
 
         [HttpGet("{accountNo}")]
         public async Task<IActionResult> GetAccountByAccountNo(string accountNo)

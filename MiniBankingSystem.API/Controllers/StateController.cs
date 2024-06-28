@@ -1,4 +1,5 @@
-﻿using MiniBankingSystem.BusinessLogic.Features.State;
+﻿using MiniBankingSystem.BusinessLogic.Features.Account;
+using MiniBankingSystem.BusinessLogic.Features.State;
 using MiniBankingSystem.Constants.Exceptions;
 
 namespace MiniBankingSystem.API.Controllers
@@ -18,6 +19,14 @@ namespace MiniBankingSystem.API.Controllers
         {
             var states = await _stateService.GetAllStates();
             var apiResponse = ApiResponseMapper.CreateApiResponse(states, ApiResponseCodes.Success);
+            return Ok(apiResponse);
+        }
+
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetPaginatedStates([FromQuery] int currentPageNo = 1, [FromQuery] int itemPerPage = 10)
+        {
+            var paginatedResponse = await _stateService.GetPaginatedStates(currentPageNo, itemPerPage);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(paginatedResponse);
             return Ok(apiResponse);
         }
 

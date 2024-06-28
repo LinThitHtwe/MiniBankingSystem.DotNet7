@@ -28,7 +28,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Transactions
             return responseTransactions;
         }
 
-        private async Task<PaginatedApiResponse> GetPaginatedTransactionHistories(int currentPageNo = 1, int itemPerPage = 10)
+        public async Task<PaginatedApiResponse> GetPaginatedTransactionHistories(int currentPageNo = 1, int itemPerPage = 10)
         {
             var paginatedTblTransactions = await _transactionDA.GetPaginatedTransactionHistoriesAsync(currentPageNo, itemPerPage);
             List<TransactionResponseDTO> responseTransactions = new();
