@@ -31,6 +31,14 @@ namespace MiniBankingSystem.API.Controllers
             return Ok(apiResponse);
         }
 
+        [HttpGet("State/{stateCode}")]
+        public async Task<IActionResult> GetTownshipsByStateCode(string stateCode)
+        {
+            var townships = await _townshipService.GetTownshipsByStateCode(stateCode);
+            var apiResponse = ApiResponseMapper.CreateApiResponse(townships);
+            return Ok(apiResponse);
+        }
+
         [HttpGet("{townshipCode}")]
         public async Task<IActionResult> GetTownshipByCode(string townshipCode)
         {

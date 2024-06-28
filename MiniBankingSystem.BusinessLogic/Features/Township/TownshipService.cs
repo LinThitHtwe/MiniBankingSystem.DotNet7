@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.DataAccess.EfAppContextModels;
 using MiniBankingSystem.DataAccess.Services.State;
 using MiniBankingSystem.DataAccess.Services.Township;
 
@@ -18,6 +19,17 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
         public async Task<List<TownshipResponseDTO>> GetAllTownships()
         {
             var tblPlaceTownships = await _townshipDA.GetAllTownshipsAsync();
+            List<TownshipResponseDTO> responseTownships = new();
+            foreach (var township in tblPlaceTownships)
+            {
+                responseTownships.Add(TownshipMapper.ChangeToResponseDTO(township)!);
+            }
+            return responseTownships;
+        }
+
+        public async Task<List<TownshipResponseDTO>> GetTownshipsByStateCode(string stateCode)
+        {
+            var tblPlaceTownships = await _townshipDA.GetTownshipsByStateCodeAsync(stateCode);
             List<TownshipResponseDTO> responseTownships = new();
             foreach (var township in tblPlaceTownships)
             {

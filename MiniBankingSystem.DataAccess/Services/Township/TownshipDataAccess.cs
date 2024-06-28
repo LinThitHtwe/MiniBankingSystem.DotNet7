@@ -37,6 +37,12 @@ namespace MiniBankingSystem.DataAccess.Services.Township
             return paginatedResponse;
         }
 
+        public async Task<List<TblPlaceTownship>> GetTownshipsByStateCodeAsync(string stateCode)
+        {
+            var townships = await _context.TblPlaceTownships.AsNoTracking().Where(ts=>ts.StateCode == stateCode).ToListAsync();
+            return townships;
+        }
+
         public async Task<TblPlaceTownship?> GetTownshipByCodeAsync(string townshipCode)
         {
             var township = await _context.TblPlaceTownships.AsNoTracking()
