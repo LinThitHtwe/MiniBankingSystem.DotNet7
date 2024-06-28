@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.Entities.Response;
 
 namespace MiniBankingSystem.DataAccess.Services.State
 {
@@ -15,6 +16,25 @@ namespace MiniBankingSystem.DataAccess.Services.State
         {
             var states = await _context.TblPlaceStates.AsNoTracking().ToListAsync();
             return states;
+        }
+
+        public async Task<PaginatedTblResponse> GetPaginatedStateAsync(int currentPageNo,int itemPerPage = 10)
+        {
+            var paginatedStates = await _context.TblPlaceStates.AsNoTracking()
+                                                               .Skip((currentPageNo - 1) * itemPerPage)
+                                                               .Take(itemPerPage)
+                                                               .ToListAsync();
+
+            int rowCount = await _context.TblPlaceStates.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
+
+            var paginatedResponse = new PaginatedTblResponse()
+            {
+                Data = paginatedStates,
+                TotalPages = totalPages,
+            };
+
+            return paginatedResponse;
         }
 
         public async Task<TblPlaceState?> GetStateByStateCodeAsync(string stateCode)

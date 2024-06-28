@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.Entities.Response;
 
 namespace MiniBankingSystem.DataAccess.Services.Township
 {
@@ -15,6 +16,25 @@ namespace MiniBankingSystem.DataAccess.Services.Township
         {
             var townships = await _context.TblPlaceTownships.AsNoTracking().ToListAsync();
             return townships;
+        }
+
+        public async Task<PaginatedTblResponse> GetPaginatedTownshipsAsync(int currentPageNo, int itemPerPage = 10)
+        {
+            var paginatedTownships = await _context.TblPlaceTownships.AsNoTracking()
+                                                                     .Skip((currentPageNo - 1) * itemPerPage)
+                                                                     .Take(itemPerPage)
+                                                                     .ToListAsync();
+
+            int rowCount = await _context.TblPlaceTownships.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
+
+            var paginatedResponse = new PaginatedTblResponse()
+            {
+                Data = paginatedTownships,
+                TotalPages = totalPages,
+            };
+
+            return paginatedResponse;
         }
 
         public async Task<TblPlaceTownship?> GetTownshipByCodeAsync(string townshipCode)

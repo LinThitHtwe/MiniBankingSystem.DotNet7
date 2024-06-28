@@ -1,4 +1,6 @@
-﻿using MiniBankingSystem.Constants.Exceptions;
+﻿using Azure;
+using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.Entities.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,25 @@ namespace MiniBankingSystem.DataAccess.Services.Account
         {
             var accounts = await _context.TblAccounts.AsNoTracking().ToListAsync();
             return accounts;
+        }
+
+        public async Task<PaginatedTblResponse> GetPaginatedAccountsAsync(int currentPageNo, int itemPerPage = 10)
+        {
+            var paginatedAccounts = await _context.TblAccounts.AsNoTracking()
+                                                              .Skip((currentPageNo - 1) * itemPerPage)
+                                                              .Take(itemPerPage)
+                                                              .ToListAsync();
+
+            int rowCount = await _context.TblAccounts.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
+
+            var paginatedResponse = new PaginatedTblResponse()
+            {
+                Data = paginatedAccounts,
+                TotalPages = totalPages,
+            };
+
+            return paginatedResponse;
         }
 
         public async Task<TblAccount?> GetAccountByAccountNoAsync(string accountNo)
@@ -49,7 +70,7 @@ namespace MiniBankingSystem.DataAccess.Services.Account
             {
                 throw new DBModifyException("Account Delete Error");
             }
-            
+
         }
 
         public async Task<int> DeleteAsync(string accountNo)

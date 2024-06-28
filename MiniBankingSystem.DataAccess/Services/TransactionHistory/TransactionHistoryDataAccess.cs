@@ -1,4 +1,5 @@
 ﻿using MiniBankingSystem.Constants.Exceptions;
+using MiniBankingSystem.Entities.Response;
 
 namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
 {
@@ -15,6 +16,26 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
         {
             var transactionHistories = await _context.TblTransactionHistories.AsNoTracking().ToListAsync();
             return transactionHistories;
+        }
+
+        public async Task<PaginatedTblResponse> GetPaginatedTransactionHistoriesAsync(int currentPageNo, int itemPerPage = 10)
+        {
+            var paginatedTransactionHistories = await _context.TblTransactionHistories
+                                                                     .AsNoTracking()
+                                                                     .Skip((currentPageNo - 1) * itemPerPage)
+                                                                     .Take(itemPerPage)
+                                                                     .ToListAsync();
+
+            int rowCount = await _context.TblTransactionHistories.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
+
+            var paginatedResponse = new PaginatedTblResponse()
+            {
+                Data = paginatedTransactionHistories,
+                TotalPages = totalPages,
+            };
+
+            return paginatedResponse;
         }
 
         public async Task<TblTransactionHistory?> GetTransactionHistoryByIdAsync(int transactionId)
@@ -54,7 +75,7 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
 
         public async Task DeleteTransactionAsync(int transactionId)
         {
-            var existingTransactionHistory = await GetTransactionHistoryByIdAsync(transactionId) 
+            var existingTransactionHistory = await GetTransactionHistoryByIdAsync(transactionId)
                                             ?? throw new NotFoundException("Transaction Not Found");
 
             _context.Entry(existingTransactionHistory).State = EntityState.Deleted;
