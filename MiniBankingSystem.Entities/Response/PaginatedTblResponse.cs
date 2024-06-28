@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MiniBankingSystem.Entities.Response
 {
-    public class PaginatedTblResponse
+    public class PaginatedTblResponse<T>
     {
-        public object Data {  get; set; }
-        public int TotalPages {  get; set; }
+        public T Data { get; set; }
+        public int TotalPages { get; set; }
     }
 }
+

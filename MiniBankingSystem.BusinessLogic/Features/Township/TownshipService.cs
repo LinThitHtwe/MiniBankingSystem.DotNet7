@@ -26,6 +26,24 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
             return responseTownships;
         }
 
+        public async Task<PaginatedApiResponse> GetPaginatedTownships(int currentPageNo = 1, int itemPerPage = 10)
+        {
+            var paginatedTblTownships = await _townshipDA.GetPaginatedTownshipsAsync(currentPageNo, itemPerPage);
+            List<TownshipResponseDTO> responseTownships = new();
+            foreach (var tblTownship in paginatedTblTownships.Data)
+            {
+                responseTownships.Add(TownshipMapper.ChangeToResponseDTO(tblTownship));
+            }
+            var paginatedApiResponse = new PaginatedApiResponse()
+            {
+                currentPageNo = currentPageNo,
+                itemsPerPage = itemPerPage,
+                paginatedData = responseTownships,
+                totalPages = paginatedTblTownships.TotalPages,
+            };
+            return paginatedApiResponse;
+        }
+
         public async Task<TownshipResponseDTO?> GetTownshipByCode(string townshipCode)
         {
             var tblPlaceTownship = await _townshipDA.GetTownshipByCodeAsync(townshipCode);
@@ -45,7 +63,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Township
         {
             await CheckInvalidStateCode(requestTownship.StateCode);
             var tblTownship = TownshipMapper.ChangeToTblTownship(requestTownship);
-            await _townshipDA.UpdateAsync(townshipCode,tblTownship);
+            await _townshipDA.UpdateAsync(townshipCode, tblTownship);
             TownshipResponseDTO responseTownship = new()
             {
                 Code = townshipCode,

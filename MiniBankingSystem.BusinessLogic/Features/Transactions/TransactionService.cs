@@ -21,11 +21,29 @@ namespace MiniBankingSystem.BusinessLogic.Features.Transactions
         {
             var tblTransactionHistories = await _transactionDA.GetAllTransactionHistoriesAsync();
             List<TransactionResponseDTO> responseTransactions = new();
-            foreach(var tblTransactionHistory in tblTransactionHistories)
+            foreach (var tblTransactionHistory in tblTransactionHistories)
             {
                 responseTransactions.Add(tblTransactionHistory.ChangeToResponseDTO());
             }
             return responseTransactions;
+        }
+
+        private async Task<PaginatedApiResponse> GetPaginatedTransactionHistories(int currentPageNo = 1, int itemPerPage = 10)
+        {
+            var paginatedTblTransactions = await _transactionDA.GetPaginatedTransactionHistoriesAsync(currentPageNo, itemPerPage);
+            List<TransactionResponseDTO> responseTransactions = new();
+            foreach (var tblTransactionHistory in paginatedTblTransactions.Data)
+            {
+                responseTransactions.Add(tblTransactionHistory.ChangeToResponseDTO());
+            }
+            var paginatedApiResponse = new PaginatedApiResponse()
+            {
+                currentPageNo = currentPageNo,
+                itemsPerPage = itemPerPage,
+                paginatedData = responseTransactions,
+                totalPages = paginatedTblTransactions.TotalPages,
+            };
+            return paginatedApiResponse;
         }
 
         public async Task<TransactionResponseDTO> GetTransactionById(int transactionId)
@@ -41,7 +59,7 @@ namespace MiniBankingSystem.BusinessLogic.Features.Transactions
             return transactionRequest;
         }
 
-        public async Task<TransactionRequestDTO> UpdateTransaction(int transactionId,TransactionRequestDTO transactionRequest)
+        public async Task<TransactionRequestDTO> UpdateTransaction(int transactionId, TransactionRequestDTO transactionRequest)
         {
             var tblTransaction = transactionRequest.ChangeToTbl();
             await _transactionDA.UpdateTransactionAsync(transactionId, tblTransaction);

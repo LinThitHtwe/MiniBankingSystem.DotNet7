@@ -21,6 +21,24 @@ namespace MiniBankingSystem.BusinessLogic.Features.State
             return responseStates;
         }
 
+        public async Task<PaginatedApiResponse> GetPaginatedStates(int currentPageNo = 1, int itemPerPage = 10)
+        {
+            var paginatedTblStates = await _stateDA.GetPaginatedStateAsync(currentPageNo, itemPerPage);
+            List<StateResponseDTO> responseStates = new();
+            foreach (var tblState in paginatedTblStates.Data)
+            {
+                responseStates.Add(StateMapper.ChangeToResponseDTO(tblState)!);
+            }
+            var paginatedApiResponse = new PaginatedApiResponse()
+            {
+                currentPageNo = currentPageNo,
+                itemsPerPage = itemPerPage,
+                paginatedData = responseStates,
+                totalPages = paginatedTblStates.TotalPages,
+            };
+            return paginatedApiResponse;
+        }
+
         public async Task<StateResponseDTO?> GetStateByStateCode(string stateCode)
         {
             var tblState = await _stateDA.GetStateByStateCodeAsync(stateCode);

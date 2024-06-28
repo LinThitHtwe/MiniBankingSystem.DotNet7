@@ -25,7 +25,7 @@ namespace MiniBankingSystem.DataAccess.Services.Account
             return accounts;
         }
 
-        public async Task<PaginatedTblResponse> GetPaginatedAccountsAsync(int currentPageNo, int itemPerPage = 10)
+        public async Task<PaginatedTblResponse<List<TblAccount>>> GetPaginatedAccountsAsync(int currentPageNo = 1, int itemPerPage = 10)
         {
             var paginatedAccounts = await _context.TblAccounts.AsNoTracking()
                                                               .Skip((currentPageNo - 1) * itemPerPage)
@@ -35,7 +35,7 @@ namespace MiniBankingSystem.DataAccess.Services.Account
             int rowCount = await _context.TblAccounts.CountAsync();
             int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
 
-            var paginatedResponse = new PaginatedTblResponse()
+            var paginatedResponse = new PaginatedTblResponse<List<TblAccount>>()
             {
                 Data = paginatedAccounts,
                 TotalPages = totalPages,

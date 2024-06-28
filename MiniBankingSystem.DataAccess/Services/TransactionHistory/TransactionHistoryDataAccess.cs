@@ -18,7 +18,7 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             return transactionHistories;
         }
 
-        public async Task<PaginatedTblResponse> GetPaginatedTransactionHistoriesAsync(int currentPageNo, int itemPerPage = 10)
+        public async Task<PaginatedTblResponse<List<TblTransactionHistory>>> GetPaginatedTransactionHistoriesAsync(int currentPageNo = 1, int itemPerPage = 10)
         {
             var paginatedTransactionHistories = await _context.TblTransactionHistories
                                                                      .AsNoTracking()
@@ -29,7 +29,7 @@ namespace MiniBankingSystem.DataAccess.Services.TransactionHistory
             int rowCount = await _context.TblTransactionHistories.CountAsync();
             int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
 
-            var paginatedResponse = new PaginatedTblResponse()
+            var paginatedResponse = new PaginatedTblResponse<List<TblTransactionHistory>>()
             {
                 Data = paginatedTransactionHistories,
                 TotalPages = totalPages,

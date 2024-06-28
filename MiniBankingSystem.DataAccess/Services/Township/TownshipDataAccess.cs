@@ -18,7 +18,7 @@ namespace MiniBankingSystem.DataAccess.Services.Township
             return townships;
         }
 
-        public async Task<PaginatedTblResponse> GetPaginatedTownshipsAsync(int currentPageNo, int itemPerPage = 10)
+        public async Task<PaginatedTblResponse<List<TblPlaceTownship>>> GetPaginatedTownshipsAsync(int currentPageNo =1, int itemPerPage = 10)
         {
             var paginatedTownships = await _context.TblPlaceTownships.AsNoTracking()
                                                                      .Skip((currentPageNo - 1) * itemPerPage)
@@ -28,7 +28,7 @@ namespace MiniBankingSystem.DataAccess.Services.Township
             int rowCount = await _context.TblPlaceTownships.CountAsync();
             int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
 
-            var paginatedResponse = new PaginatedTblResponse()
+            var paginatedResponse = new PaginatedTblResponse<List<TblPlaceTownship>>()
             {
                 Data = paginatedTownships,
                 TotalPages = totalPages,

@@ -1,4 +1,5 @@
-﻿using MiniBankingSystem.DataAccess.Services.Account;
+﻿using MiniBankingSystem.DataAccess.EfAppContextModels;
+using MiniBankingSystem.DataAccess.Services.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,29 @@ namespace MiniBankingSystem.BusinessLogic.Features.Account
         {
             var tblAccounts = await _accountDA.GetAllAccounts();
             List<AccountResponseDTO> responseAccounts = new();
-            foreach(var tblAccount in tblAccounts)
+            foreach (var tblAccount in tblAccounts)
             {
                 responseAccounts.Add(AccountMapper.ChangeToResponseDTO(tblAccount));
             }
             return responseAccounts;
+        }
+
+        public async Task<PaginatedApiResponse> GetPaginatedAccounts(int currentPageNo = 1, int itemPerPage = 10)
+        {
+            var paginatedTblAccouunts = await _accountDA.GetPaginatedAccountsAsync(currentPageNo, itemPerPage);
+            List<AccountResponseDTO> responseAccounts = new();
+            foreach (var tblAccount in paginatedTblAccouunts.Data)
+            {
+                responseAccounts.Add(AccountMapper.ChangeToResponseDTO(tblAccount));
+            }
+            var paginatedApiResponse = new PaginatedApiResponse()
+            {
+                currentPageNo = currentPageNo,
+                itemsPerPage = itemPerPage,
+                paginatedData = responseAccounts,
+                totalPages = paginatedTblAccouunts.TotalPages,
+            };
+            return paginatedApiResponse;
         }
 
         public async Task<AccountResponseDTO> GetAccountByAccountNo(string accountNo)

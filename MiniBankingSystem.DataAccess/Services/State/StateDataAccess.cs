@@ -18,7 +18,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
             return states;
         }
 
-        public async Task<PaginatedTblResponse> GetPaginatedStateAsync(int currentPageNo,int itemPerPage = 10)
+        public async Task<PaginatedTblResponse<List<TblPlaceState>>> GetPaginatedStateAsync(int currentPageNo = 1, int itemPerPage = 10)
         {
             var paginatedStates = await _context.TblPlaceStates.AsNoTracking()
                                                                .Skip((currentPageNo - 1) * itemPerPage)
@@ -28,7 +28,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
             int rowCount = await _context.TblPlaceStates.CountAsync();
             int totalPages = (int)Math.Ceiling((double)rowCount / itemPerPage);
 
-            var paginatedResponse = new PaginatedTblResponse()
+            var paginatedResponse = new PaginatedTblResponse<List<TblPlaceState>>()
             {
                 Data = paginatedStates,
                 TotalPages = totalPages,
@@ -40,7 +40,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
         public async Task<TblPlaceState?> GetStateByStateCodeAsync(string stateCode)
         {
             var state = await _context.TblPlaceStates.AsNoTracking()
-                                                     .FirstOrDefaultAsync(state=> state.StateCode == stateCode);
+                                                     .FirstOrDefaultAsync(state => state.StateCode == stateCode);
             return state;
         }
 
@@ -48,10 +48,10 @@ namespace MiniBankingSystem.DataAccess.Services.State
         {
             await _context.TblPlaceStates.AddAsync(state);
             var result = await _context.SaveChangesAsync();
-            if(result < 1)
+            if (result < 1)
             {
                 throw new DBModifyException("State Not Created");
-            }  
+            }
         }
 
         public async Task UpdateStateAysnc(string stateCode, TblPlaceState requestState)
@@ -68,7 +68,7 @@ namespace MiniBankingSystem.DataAccess.Services.State
             }
         }
 
-        public async  Task DeleteStateAsync(string stateCode)
+        public async Task DeleteStateAsync(string stateCode)
         {
             var existingState = await GetStateByStateCodeAsync(stateCode) ?? throw new NotFoundException("State Not Found");
             _context.Entry(existingState).State = EntityState.Deleted;
