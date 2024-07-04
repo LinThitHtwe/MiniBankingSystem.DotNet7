@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MiniBankingSystem.API;
 using MiniBankingSystem.API.Exceptions;
 using MiniBankingSystem.BusinessLogic.Features.Account;
 using MiniBankingSystem.BusinessLogic.Features.State;
@@ -23,15 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
-builder.Services.AddScoped<StateDataAccess>();
-builder.Services.AddScoped<StateService>(); 
-builder.Services.AddScoped<TownshipDataAccess>();
-builder.Services.AddScoped<TownshipService>();
-builder.Services.AddScoped<AccountDataAccess>();
-builder.Services.AddScoped<AccountService>();
-builder.Services.AddScoped<TransactionHistoryDataAccess>();
-builder.Services.AddScoped<TransactionService>();
-builder.Services.AddScoped<BankActions>();
+builder.Services.AddServices();
 
 var app = builder.Build();
 
